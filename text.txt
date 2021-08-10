@@ -21,17 +21,18 @@ data in each, it doesn’t matter). You should generate a website that a user ca
 search service that you’ve build, this does not have to be a complex effort, but do note that the
 completeness of this website, as well as the usability, will be factored into the competition element
 discussed at the end of this document. To begin, we briefly outline the project in summarized steps:
+
+
 Step 1. Choose a subject area for your search engine.
 Step 2. Find a mock data generator and generate 1000 rows of data for your chosen subject;
 https://www.softwaretestinghelp.com/test-data-generation-tools/
 Step 3. Build both PostgreSQL and MongoDB data storage for the mock data generated.
 Reminder, mock data generators can export to either SQL or JSON (or both).
-Step 4. Build Node.js objects to query and display the search results. The user should be able to
+Step 4. Build Node.js objects to query and display the search results. The user should be able 
 choose their data source(s); postgres, mongo, or both. Before they execute their search.
 Step 5. Implement security features to signup and login before any search can be executed.
 (use passport.js or similar if you like)
 Step 6. Results should be displayed to page, similar to google search results.
-
 Step 7. Each requested query keywords should be saved to a log in either postgres, mongo, or
 both (you choose). These keywords should be save with datetime stamp and user_id.
 Bonus. Use automated unit testing to test your code where possible.
@@ -58,7 +59,7 @@ into the core implementation. So, to accomplish the next step, which would be st
 need to add your data to your databases. Services like mockaroo make this relatively easy to do - they can
 generate data as SQL insert statements, which obviously make it quite easy to insert data into Postgres,
 for example. If your mocking service does not allow this, you may have to write a script that takes the
-data in the format that you get it in, and translates it into an appropriate insert query, perhaps using the pg
+data in the= format that you get it in, and translates it into an appropriate insert query, perhaps using the pg
 node module, or just string manipulation written out to a file for you to bulk-insert using pgAdmin. For
 mongodb, the process is similar. Again, mockaroo can generate JSON files, so when I implemented my
 solution for this, that’s what I did (mockaroo helpfully has an option to generate the file as an array of
