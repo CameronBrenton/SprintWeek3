@@ -1,6 +1,7 @@
 
 const express = require('express');
 var mongo = require('mongodb')
+const Pool = require('pg').Pool
 
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb+srv://sprintTeam:password1001@cluster0.oq1gf.mongodb.net/Cluster0?retryWrites=true&w=majority";
@@ -17,6 +18,15 @@ MongoClient.connect(url, function(err, db) {
       db.close();
     });
   });
+
+
+const pool = new Pool({
+    user: 'sprint',
+    host: 'localhost',
+    database: "animaldb",
+    password: "password",
+    port: 5432
+});
 
 app.use(express.json());
 
