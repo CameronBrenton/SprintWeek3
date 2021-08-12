@@ -1,0 +1,22 @@
+{% extends layout %}
+{% block content %}
+  <h1>{{message}}</h1>
+
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>UserId</th>
+                <th>Email</th>
+            <tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.userid }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

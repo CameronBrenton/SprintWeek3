@@ -8,6 +8,7 @@ global.pages = [
   { url: "/signup", title: "Sign up" },
   { url: "/signin", title: "Sign in" },
   { url: "/signout", title: "Sign out" },
+  { url: "/search", title: "Search"}
 ];
 
 let data = {

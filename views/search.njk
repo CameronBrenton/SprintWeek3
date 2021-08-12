@@ -1,0 +1,37 @@
+{% extends layout %}
+{% block content %}
+<!DOCTYPE html>
+<script src="search.js"></script>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+        <title>Search Engine</title>
+    </head>
+
+
+
+<body>
+
+
+    <input id="searchy" type="search" placeholder="search">
+    <label for="Client">Choose a Database:</label>
+    
+   
+<select name="client" id="Client">
+  <option value=“postgres”>Postgres</option>
+  <option value=“mongodb”>MongoDB</option>
+  <option value=“both”>Both</option>
+  
+</select>
+     <button onclick = "btnWork", id="myBtn" type="submit">Submit</button>
+        
+
+
+
+
+
+</body>
+
+
+</html>
+{% endblock %}

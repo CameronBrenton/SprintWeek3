@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+  </head>
+  <body>
+    <nav>
+        <ul>
+            {% for page in pages %}
+                <li>
+                    <a href="{{ page.url }}">
+                        {{ page.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>

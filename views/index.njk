@@ -1,0 +1,32 @@
+{% extends layout %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+        <title>Sign In</title>
+    </head>
+
+
+
+<body>
+
+
+    <form method="POST" action="/signIn" class="signIn">
+        <input type="email" name=email placeholder="email">
+        <input type="password" name=password placeholder="password">
+        <button type="submit">Sign In</button>
+    </form>
+
+
+
+
+
+
+</body>
+
+
+</html>
+
+{% endblock %}
