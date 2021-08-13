@@ -1,7 +1,5 @@
-{% extends layout %}
-{% block content %}
 <!DOCTYPE html>
-<script src="search.js"></script>
+<script src="./app.js"></script>
 <html>
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
@@ -13,9 +11,9 @@
 <body>
 
 
-    <input id="searchy" type="search" placeholder="search">
+    <input id="searchy" name="searchy" type="search" placeholder="search">
     <label for="Client">Choose a Database:</label>
-    
+    {{ message }}   
    
 <select name="client" id="Client">
   <option value=“postgres”>Postgres</option>
@@ -26,12 +24,12 @@
      <button onclick = "btnWork", id="myBtn" type="submit">Submit</button>
         
 
-
+<form method="POST" action="/submit">
+    <input id="important_string" name="important_string" placeholder="Enter your query">
+    <button type="submit">Search</button>
+</form>
 
 
 
 </body>
-
-
 </html>
-{% endblock %}
