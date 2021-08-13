@@ -19,7 +19,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 */
 
-//SERVER SIDE
 
 const express = require('express');
 const pkg = require ('pg');
@@ -66,7 +65,8 @@ const usersRouter = require('./routes/users');
 const signupRouter = require('./routes/signup');
 const signinRouter = require('./routes/signin');
 const signoutRouter = require('./routes/signout');
-const searchRouter = require('./routes/search')
+const searchRouter = require('./routes/search');
+const submitRouter = require('./routes/submit');
 
 const app = express();
 
@@ -106,7 +106,7 @@ const pool = new Pool({
     try {
       await client.connect();
       
-    await findOneListingsByAnimalName(client, ""); 
+    await findOneListingsByAnimalName(client, "");
     }catch(err) {
       console.error(err);
     } finally {
@@ -127,7 +127,6 @@ const pool = new Pool({
     main().catch(console.error);
 
 
-
 const checkSignedIn = (req, res, next) => {
   if(req.isAuthenticated()) { // if they are signed in
       return next(); // proceed to next middleware
@@ -142,14 +141,14 @@ const checkNotSignedIn = (req, res, next) => {
   next(); // else, allow them to visit the page they want to
 };
 
-const query = "red";
+const query = "";
 async function findOneListingsByAnimalName(client, nameOfListing) {
 	const result = await client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query)}).toArray();
 	if(result){
-		console.log(`Found a listing in the collection with the name '${nameOfListing}'`)
-		console.log(result);
+		//console.log(`Found a listing in the collection with the name '${nameOfListing}'`)
+		//console.log(result);
 	}else{
-		console.log(`No listings found with the name '${nameOfListing}'`)
+		//console.log(`No listings found with the name '${nameOfListing}'`)
 	}
 }
 
@@ -158,7 +157,18 @@ app.use('/users', checkSignedIn, usersRouter);
 app.use('/signup', checkNotSignedIn, signupRouter);
 app.use('/signin', checkNotSignedIn, signinRouter);
 app.use('/signout', signoutRouter);
-app.use('/search', searchRouter)
+app.use('/search', searchRouter);
+app.use('/submit', submitRouter);
+
+
+//let button = document.getElementById(myBtn)
+
+app.post('/button' , ( req , res ) => {
+  return res.json({
+    message: 1234
+  });
+});
+
 
 
 
@@ -171,7 +181,7 @@ app.listen(9000, () => {
   return pool.query(`SELECT * FROM mock_data`, function (err, result){
     if (err) reject(err);
     respond(result);
-    console.log(result.rows)
+    //console.log(result.rows)
 
   });
 });
@@ -184,3 +194,6 @@ function btnwork(){
  
  }
  */
+
+
+ // req.body.()

@@ -12,7 +12,7 @@ const pool = new Pool({
 });
 
 const data = {
-  message: 'Create an account!',
+  message: 'Successfully Created an Account!',
   layout:  'layout.njk',
   title: 'Signup',
   pages: global.pages,
