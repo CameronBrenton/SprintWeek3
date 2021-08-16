@@ -100,6 +100,7 @@ const pool = new Pool({
   port: 5432
 });
 
+/*
   async function main() {
     const uri = "mongodb+srv://sprintTeam:password1001@cluster0.oq1gf.mongodb.net/Cluster0?retryWrites=true&w=majority";
     const client = new MongoClient(uri);
@@ -115,6 +116,7 @@ const pool = new Pool({
    
     //btnwork()
   }
+
 // function btnwork(){
 //   getElementById("myBtn").addEventListener("click", myFunction)
 //   function myFunction() {
@@ -125,7 +127,7 @@ const pool = new Pool({
 // }
   
     main().catch(console.error);
-
+*/
 
 const checkSignedIn = (req, res, next) => {
   if(req.isAuthenticated()) { // if they are signed in
