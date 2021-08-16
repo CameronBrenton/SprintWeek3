@@ -24,30 +24,85 @@ client.connect();
 
 
 
-router.post('/', function (req, res){
-	let query = req.body.important_string;
-	const results = client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query)}).toArray()
-	.then(function(result){
+// router.post('/', async function (req, res) {
+// 	const dataBase = req.body.client
+// 	if (dataBase.value = "mongodb") {
+// 		let query = req.body.important_string;
+// 		const results = await client.db("animaldb").collection("animals").find({ AnimalName: new RegExp(query) }).toArray()
+// 			.then(function (result) {
+// 				//result = JSON.stringify(result);
+// 				result = result.map(function (animal) {
+// 					return animal.AnimalName;
+// 				});
+// 				res.render('results.njk', {
+// 					results: result
+// 				});
+// 			})
+// 			.catch(function (err) {
+// 				console.log(err);
+// 			})
+// 		}
+// 	})
+// 	router.post('/', async function (req, res) {
+// 		const search = req.body.important_string;
+// 		const dataBase = req.body.client
+// 		if (dataBase.value = 'postgres'){
+// 			let search_results = await pool.query("SELECT * FROM mock_data WHERE animalnames LIKE '" + search + "'")
+// 			console.log(search_results)
+// 			res.render('results.njk', {
+// 				results: search_results.rows.map(result => JSON.stringify(result))
+// 			});
+// 		}
+// 		});
+	
+router.post('/', async function (req, res) {
+	const search = req.body.important_string;
+	const dataBase = req.body.client
+	console.log(dataBase);
+	if (dataBase === 'postgres'){
+		let search_results = await pool.query("SELECT * FROM mock_data WHERE animalnames LIKE '%" + search + "%'")
+		console.log(search_results)
+		res.render('results.njk', {
+			results: search_results.rows.map(result => JSON.stringify(result))
+		})
+	}else if(dataBase === 'mongodb'){
+		let query = req.body.important_string;
+		let results = await client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query)}).toArray()
+
 		//result = JSON.stringify(result);
-		result = result.map(function(animal){
+		results = results.map(function(animal){
 			return animal.AnimalName;
 		});
 		res.render('results.njk', {
-			results: result
-		});
-	})
-	.catch(function(err){
-		console.log(err);
-	})
-	
+			results: results
+		})
+			
+	}else{
+		
+		console.log(dataBase);
+		
+		let query = req.body.important_string;
+		let search_results_mongo = await client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query)}).toArray()
+		let search_results_pg = await pool.query("SELECT * FROM mock_data WHERE animalnames LIKE '%" + query + "%'")
+		console.log(search_results_pg)
 
-})
+		//result = JSON.stringify(result);
+		search_results_mongo = search_results_mongo.map(function(animal){
+			return animal.AnimalName;
+		});
+		res.render('results.njk', {
+			results: search_results_mongo,
+			results2: search_results_pg.rows.map(result => JSON.stringify(result))
+		})
+	}
+});
+
 
 
 /*
 router.post('/', function (req, res) {
 	let animalnames = req.body.important_string;
-	pool.query(`SELECT * FROM mock_data WHERE animalnames LIKE '%animalNames%'`, [animalnames], (err, results) => {
+	pool.query(SELECT * FROM mock_data WHERE animalnames LIKE '" + search + "'"), [animalnames], (err, results) => {
 		if(err) {
 			console.log(err);
 		}
@@ -58,5 +113,10 @@ router.post('/', function (req, res) {
 })
 console.log(pool.query)
 */
+
+
+
+
+
 
 module.exports = router;
