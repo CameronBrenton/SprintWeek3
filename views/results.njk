@@ -8,6 +8,11 @@
 </head>
 <body>
 	<h1>This is the results of your query:</h1>
-	<h2>{{ results }}</h2>	
+	<h2>results</h2>	
+	{% for result in results %}
+	  <p> result: {{ result }} </p>
+	{% endfor %}
+
+	<h2>results: {{ results2 }}</h2>
 </body>
 </html>
