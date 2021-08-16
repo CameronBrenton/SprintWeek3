@@ -158,7 +158,7 @@ app.use('/', indexRouter);
 app.use('/users', checkSignedIn, usersRouter);
 app.use('/signup', checkNotSignedIn, signupRouter);
 app.use('/signin', checkNotSignedIn, signinRouter);
-app.use('/signout', signoutRouter);
+app.use('/signout', checkSignedIn ,signoutRouter);
 app.use('/search', searchRouter);
 app.use('/submit', submitRouter);
 
