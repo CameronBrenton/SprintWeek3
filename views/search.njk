@@ -13,16 +13,17 @@
     <label for="Client">Choose a Database:  </label>
     {{ message }}   
    
-<select name="client" id="Client">
-  <option value=“postgres”>Postgres</option>
-  <option value=“mongodb”>MongoDB</option>
-  <option value=“both”>Both</option>
-  
-</select>
+
         
 
 <form method="POST" action="/submit">
     <input id="important_string" name="important_string" placeholder="Enter your query">
+    <select name="client" id="client">
+      <option id="postgres" value="postgres">Postgres</option>
+      <option id="mongodb" value="mongodb">MongoDB</option>
+      <option id="both" value="both">Both</option>
+    </select>
+    
     <button type="submit">Search</button>
 </form>
 
