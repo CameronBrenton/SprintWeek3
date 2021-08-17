@@ -18,25 +18,19 @@ let data = {
   pages: global.pages
 };
 
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
   res.render('signout.njk', data);
 });
 
+
+
+
 router.post('/', async function(req, res) {
-  const { name, city, school, password } = req.body;
-  const encryptedPassword = await bcrypt.hash(password, 10)
-
-  const id = Date.now().toString();
-  const newUser = { id, name, city, school };
-  
-  // model.updateUser -> db....
-  global.registeredUsers.push(newUser);
-  if(global.passwords === undefined) {
-      global.passwords = {};
-  }
-  global.passwords[name] = encryptedPassword;
-
-  res.render('users.njk', data);
+  //global.loggedInUser = undefined;
+  //res.render('index.njk', data);
+  req.logOut();
+  req.user = undefined;
+  res.redirect('/signin');
 });
 
 
