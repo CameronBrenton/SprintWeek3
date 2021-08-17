@@ -11,7 +11,7 @@ const data = {
 	layout:  'layout.njk',
 	title: 'Login',
 	pages: global.pages,
-	users: global.registeredUsers
+	//users: global.registeredUsers
       };
 
 router.get('/', function (req, res) {
@@ -19,8 +19,9 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', passport.authenticate('local', {
-	successRedirect: '/',
-	failureRedirect: '/signin'
+	successRedirect: '/search',
+	failureRedirect: '/signin',
+	failureFlash: true
 }));
 
 module.exports = router;
