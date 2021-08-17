@@ -1,25 +1,3 @@
-/*import express, { json } from 'express';
-import pkg from 'pg';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import session from 'express-session';
-import methodOverride from 'method-override';
-import flash from 'express-flash';
-import passport from 'passport';
-import { MongoClient } from 'mongodb';
-import nunjucks from 'nunjucks';
-import passportLocal from 'passport-local';
-import Pool from 'pg-pool';
-import route from 'router'
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import initPassport from '../passport-config';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-*/
-
-
 const express = require('express');
 const pkg = require ('pg');
 const path = require('path');
@@ -36,32 +14,46 @@ const Pool = require('pg-pool');
 const { fileURLToPath } = require('url');
 const initPassport = require('./passport-config');
 
-
-
-
-
 const port = 9000;
 
+const pool = new Pool({
+	user: 'sprint',
+	host: 'localhost',
+	database: "animaldb",
+	password: "password",
+	port: 5432
+});
 
-const getUserByName = (name) => {
-  return global.registeredUsers.find(user => user.name === name);
+const getUserByEmail = async (email) => {
+  //return global.registeredUsers.find(user => user.name === name);
+  //return animaldb.registeredUsers.find(user => user.email === email);
+  // Write a query call to the databse that returns the user with the given email
+  const results = await pool.query('SELECT * FROM users where email = $1', [email]);
+  // Check to see how many rows were returned.
+  //If one, perfect, return the object representing that row.
+  //If none, return null or something.
+ 
+  if(results.rows.length === 1) {
+    return results.rows[0];
+  }else{
+    return null;
+  }
 };
-const getUserById = (id) => {
-  return global.registeredUsers.find(user => user.id === id);
+
+const getUserById = async (userid) => {
+  //return global.registeredUsers.find(user => user.id === id);
+  const results = await pool.query("SELECT * FROM users WHERE userid = $1", [userid]);
+
+  if(results.rows.length === 1) {
+    return results.rows[0];
+  }else{
+    return null;
+  }
 };
 
-initPassport(passport, getUserByName, getUserById);
-
-/*
-const indexRouter = import('../routes/index');
-const usersRouter = import('../routes/users');
-const signupRouter = import('../routes/signup');
-const signinRouter = import('../routes/signin');
-const signoutRouter = import('../routes/signout');
-*/
+initPassport(passport, getUserByEmail, getUserById);
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const signupRouter = require('./routes/signup');
 const signinRouter = require('./routes/signin');
 const signoutRouter = require('./routes/signout');
@@ -92,42 +84,6 @@ app.use(methodOverride('_method'));
 app.use(flash());
 
 
-const pool = new Pool({
-  user: 'sprint',
-  host: 'localhost',
-  database: "animaldb",
-  password: "password",
-  port: 5432
-});
-
-/*
-  async function main() {
-    const uri = "mongodb+srv://sprintTeam:password1001@cluster0.oq1gf.mongodb.net/Cluster0?retryWrites=true&w=majority";
-    const client = new MongoClient(uri);
-    try {
-      await client.connect();
-      
-    await findOneListingsByAnimalName(client, "");
-    }catch(err) {
-      console.error(err);
-    } finally {
-      await client.close();
-    }
-   
-    //btnwork()
-  }
-
-// function btnwork(){
-//   getElementById("myBtn").addEventListener("click", myFunction)
-//   function myFunction() {
-//   query = getElementById("searchy")
-//   console.log("query")
-
-// }
-// }
-  
-    main().catch(console.error);
-*/
 
 const checkSignedIn = (req, res, next) => {
   if(req.isAuthenticated()) { // if they are signed in
@@ -143,33 +99,15 @@ const checkNotSignedIn = (req, res, next) => {
   next(); // else, allow them to visit the page they want to
 };
 
-const query = "";
-async function findOneListingsByAnimalName(client, nameOfListing) {
-	const result = await client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query)}).toArray();
-	if(result){
-		//console.log(`Found a listing in the collection with the name '${nameOfListing}'`)
-		//console.log(result);
-	}else{
-		//console.log(`No listings found with the name '${nameOfListing}'`)
-	}
-}
 
 app.use('/', indexRouter);
-app.use('/users', checkSignedIn, usersRouter);
 app.use('/signup', checkNotSignedIn, signupRouter);
 app.use('/signin', checkNotSignedIn, signinRouter);
-app.use('/signout', checkSignedIn ,signoutRouter);
-app.use('/search', searchRouter);
+app.use('/signout', checkSignedIn, signoutRouter);
+app.use('/search', checkSignedIn, searchRouter);
 app.use('/submit', submitRouter);
 
 
-//let button = document.getElementById(myBtn)
-
-app.post('/button' , ( req , res ) => {
-  return res.json({
-    message: 1234
-  });
-});
 
 
 
@@ -178,24 +116,3 @@ app.post('/button' , ( req , res ) => {
 app.listen(9000, () => {
 	console.log(`Listening on http://localhost:${port}`);
 });
-
-  var PGVar = new Promise(function (respond, reject) {
-  return pool.query(`SELECT * FROM mock_data`, function (err, result){
-    if (err) reject(err);
-    respond(result);
-    //console.log(result.rows)
-
-  });
-});
-/*
-function btnwork(){
-  getElementById("myBtn").addEventListener("click", myFunction)
- function myFunction() {
- query = getElementById("searchy")
- console.log("query")
- 
- }
- */
-
-
- // req.body.()
