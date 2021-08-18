@@ -60,14 +60,14 @@ router.post('/', async function (req, res) {
 	const dataBase = req.body.client
 	console.log(dataBase);
 	if (dataBase === 'postgres'){
-		let search_results = await pool.query("SELECT * FROM mock_data WHERE animalnames LIKE '%" + search + "%'")
+		let search_results = await pool.query("SELECT * FROM mock_data WHERE animalnames ILIKE '%" + search + "%'")
 		console.log(search_results)
 		res.render('results.njk', {
 			results: search_results.rows.map(result => JSON.stringify(result))
 		})
 	}else if(dataBase === 'mongodb'){
 		let query = req.body.important_string;
-		let results = await client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query)}).toArray()
+		let results = await client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query, 'i')}).toArray()
 
 		//result = JSON.stringify(result);
 		results = results.map(function(animal){
@@ -83,16 +83,19 @@ router.post('/', async function (req, res) {
 		
 		let query = req.body.important_string;
 		let search_results_mongo = await client.db("animaldb").collection("animals").find({AnimalName: new RegExp(query)}).toArray()
-		let search_results_pg = await pool.query("SELECT * FROM mock_data WHERE animalnames LIKE '%" + query + "%'")
+		let search_results_pg = await pool.query("SELECT * FROM mock_data WHERE animalnames ILIKE '%" + query + "%'")
 		console.log(search_results_pg)
 
 		//result = JSON.stringify(result);
 		search_results_mongo = search_results_mongo.map(function(animal){
 			return animal.AnimalName;
 		});
+		search_results_pg = search_results_pg.rows.map(function(animal){
+			return animal.animalnames;
+		});
 		res.render('results.njk', {
 			results: search_results_mongo,
-			results2: search_results_pg.rows.map(result => JSON.stringify(result))
+			results2: search_results_pg
 		})
 	}
 });
