@@ -13,7 +13,7 @@ const pool = new Pool({
 
 let data = {
   message: 'Signed out of your account!',
-  layout:  'layout.njk',
+  layout: 'layout.njk',
   title: 'Sign out',
   pages: global.pages
 };
@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 
 
 
-router.post('/', async function(req, res) {
+router.post('/', async function (req, res) {
   //global.loggedInUser = undefined;
   //res.render('index.njk', data);
   req.logOut();
