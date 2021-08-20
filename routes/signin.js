@@ -7,12 +7,12 @@ const router = express.Router();
 const passport = require('passport');
 
 const data = {
-	message: 'Login to your account!',
-	layout:  'layout.njk',
+	//message: 'Login to your account!',
+	layout: 'layout.njk',
 	title: 'Login',
 	pages: global.pages,
 	//users: global.registeredUsers
-      };
+};
 
 router.get('/', function (req, res) {
 	res.render('signin.njk', data);
