@@ -12,14 +12,14 @@ const pool = new Pool({
 });
 
 const data = {
-  message: 'Successfully Created an Account!',
-  layout:  'layout.njk',
+  message: "Go ahead and sign up for an account. It's free!",
+  layout: 'layout.njk',
   title: 'Signup',
   pages: global.pages,
   //users: global.registeredUsers
 };
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
   res.render('signup.njk', data);
 });
 
@@ -41,7 +41,7 @@ router.post('/', async function (req, res) {
     let insert_result = await pool.query('INSERT INTO users (email, password) VALUES ($1, $2)', [email, encryptedPassword]);
     res.render('signin.njk', data);
   }
-  
+
 });
 
 module.exports = router;
