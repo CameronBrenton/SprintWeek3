@@ -7,22 +7,22 @@ global.pages = [
   { url: "/signup", title: "Sign up" },
   { url: "/signin", title: "Sign in" },
   { url: "/signout", title: "Sign out" },
-  { url: "/search", title: "Search"}
+  { url: "/search", title: "Search" }
 ];
 
 let data = {
   message: 'Hello world!',
-  layout:  'layout.njk',
+  layout: 'layout.njk',
   title: 'Nunjucks example',
   pages: global.pages
 };
 
 /* GET home page. */
-router.get('/', async function(req, res) {
-  if(!req.isAuthenticated()) {
+router.get('/', async function (req, res) {
+  if (!req.isAuthenticated()) {
     data.user = undefined;
   }
-  
+
   data.user = req.user ? req.user.name : data.user;
   res.render('index.njk', data);
 });
