@@ -56,8 +56,11 @@ router.post('/', async function (req, res) {
 	if (dataBase === 'postgres') {
 		let search_results = await pool.query("SELECT * FROM mock_data WHERE animalnames ILIKE '%" + search + "%'")
 		console.log(search_results)
+		search_results = search_results.rows.map(function (animal) {
+			return animal.animalnames;
+		});
 		res.render('results.njk', {
-			results: search_results.rows.map(result => JSON.stringify(result))
+			results: search_results
 		})
 	} else if (dataBase === 'mongodb') {
 		let query = req.body.important_string;
