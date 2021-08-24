@@ -1,11 +1,9 @@
-const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const fetch = require("node-fetch")
 const Pool = require('pg-pool')
 const { MongoClient } = require('mongodb');
 
+// connecting to Postgres
 const pool = new Pool({
 	user: 'sprint',
 	host: 'localhost',
@@ -13,42 +11,13 @@ const pool = new Pool({
 	password: "password",
 	port: 5432
 });
-
+// connecting to Mongodb
 const uri = "mongodb+srv://sprintTeam:password1001@cluster0.oq1gf.mongodb.net/Cluster0?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 client.connect();
 
-// router.post('/', async function (req, res) {
-// 	const dataBase = req.body.client
-// 	if (dataBase.value = "mongodb") {
-// 		let query = req.body.important_string;
-// 		const results = await client.db("animaldb").collection("animals").find({ AnimalName: new RegExp(query) }).toArray()
-// 			.then(function (result) {
-// 				//result = JSON.stringify(result);
-// 				result = result.map(function (animal) {
-// 					return animal.AnimalName;
-// 				});
-// 				res.render('results.njk', {
-// 					results: result
-// 				});
-// 			})
-// 			.catch(function (err) {
-// 				console.log(err);
-// 			})
-// 		}
-// 	})
-// 	router.post('/', async function (req, res) {
-// 		const search = req.body.important_string;
-// 		const dataBase = req.body.client
-// 		if (dataBase.value = 'postgres'){
-// 			let search_results = await pool.query("SELECT * FROM mock_data WHERE animalnames LIKE '" + search + "'")
-// 			console.log(search_results)
-// 			res.render('results.njk', {
-// 				results: search_results.rows.map(result => JSON.stringify(result))
-// 			});
-// 		}
-// 		});
 
+// Posts a new query to one of the databases
 router.post('/', async function (req, res) {
 	const search = req.body.important_string;
 	const dataBase = req.body.client
@@ -66,7 +35,6 @@ router.post('/', async function (req, res) {
 		let query = req.body.important_string;
 		let results = await client.db("animaldb").collection("animals").find({ AnimalName: new RegExp(query, 'i') }).toArray()
 
-		//result = JSON.stringify(result);
 		results = results.map(function (animal) {
 			return animal.AnimalName;
 		});
@@ -83,7 +51,6 @@ router.post('/', async function (req, res) {
 		let search_results_pg = await pool.query("SELECT * FROM mock_data WHERE animalnames ILIKE '%" + query + "%'")
 		console.log(search_results_pg)
 
-		//result = JSON.stringify(result);
 		search_results_mongo = search_results_mongo.map(function (animal) {
 			return animal.AnimalName;
 		});
@@ -96,20 +63,5 @@ router.post('/', async function (req, res) {
 		})
 	}
 });
-
-/*
-router.post('/', function (req, res) {
-	let animalnames = req.body.important_string;
-	pool.query(SELECT * FROM mock_data WHERE animalnames LIKE '" + search + "'"), [animalnames], (err, results) => {
-		if(err) {
-			console.log(err);
-		}
-		res.render('results.njk', {
-			results: results
-		});
-	});
-})
-console.log(pool.query)
-*/
 
 module.exports = router;
