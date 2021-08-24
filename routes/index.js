@@ -1,7 +1,7 @@
-
 const express = require('express');
 const router = express.Router();
 
+// Navigation
 global.pages = [
   { url: "/", title: "Home" },
   { url: "/signup", title: "Sign up" },
@@ -17,7 +17,7 @@ let data = {
   pages: global.pages
 };
 
-/* GET home page. */
+// Get home page
 router.get('/', async function (req, res) {
   if (!req.isAuthenticated()) {
     data.user = undefined;
