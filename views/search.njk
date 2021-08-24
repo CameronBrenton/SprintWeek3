@@ -32,11 +32,11 @@ d{% extends layout %}
       </style>
     </head>
     <body>
-      <label id="label" for="Client">CHOOSE A DATABASE:
+      <label id="label" for="client">CHOOSE A DATABASE:
       </label>
       <form id="form" method="POST" action="/submit">
         <input id="important_string" name="important_string" placeholder="Enter your query">
-        <select name="client" id="client">
+        <select id="client" name="client">
           <option id="postgres" value="postgres">Postgres</option>
           <option id="mongodb" value="mongodb">MongoDB</option>
           <option id="both" value="both">Both</option>
